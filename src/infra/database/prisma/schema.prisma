@@ -11,17 +11,29 @@ datasource db {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
+  id          String           @id @default(uuid())
   email       String        @unique
   name        String?
   password    String
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+
+  refreshToken RefreshToken[]
   transaction Transaction[]
 }
 
+model RefreshToken{
+  id        String      @id @default(uuid())
+  token     String      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
 model Transaction {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   title     String
   amount    Float
   type      String
@@ -29,5 +41,5 @@ model Transaction {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  userId    String
 }

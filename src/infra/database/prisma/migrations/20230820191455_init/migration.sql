@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT,
     "password" TEXT NOT NULL,
@@ -12,14 +12,14 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Transaction" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
     "type" TEXT NOT NULL,
     "category" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
 
     CONSTRAINT "Transaction_pkey" PRIMARY KEY ("id")
 );

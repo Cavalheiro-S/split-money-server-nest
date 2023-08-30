@@ -1,9 +1,16 @@
 import { Module } from '@nestjs/common';
-import { TransactionController } from './transaction/api/transaction.controller';
-
+import { PrismaModule } from 'src/infra/database/prisma/prisma.module';
+import { TransactionModule } from './transaction/transaction.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TransformInterceptor } from './shared/transform.interceptor';
 @Module({
-  imports: [],
-  controllers: [TransactionController],
-  providers: [],
+  imports: [PrismaModule, TransactionModule, AuthModule, UserModule],
+  providers: [PrismaModule, TransactionModule,
+  {
+    provide: APP_INTERCEPTOR,
+    useClass: TransformInterceptor
+  }],
 })
-export class ApiModule {}
+export class ApiModule { }
