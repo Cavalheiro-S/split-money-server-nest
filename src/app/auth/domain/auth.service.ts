@@ -31,7 +31,7 @@ export class AuthService {
             return { message: "User already exists" };
         }
         const createdUser = await this.userService.create(dto);
-        const access_token = await this.jwtService.signAsync({ email: dto.email, id: user.id })
+        const access_token = await this.jwtService.signAsync({ email: dto.email, id: createdUser.id })
         return {
             access_token,
             expiresIn: AUTH.ACCESS_TOKEN_EXPIRES_TIME_IN_UNIX

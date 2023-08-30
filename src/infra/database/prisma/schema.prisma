@@ -11,20 +11,22 @@ datasource db {
 }
 
 model User {
-  id          String           @id @default(uuid())
-  email       String        @unique
+  id          String   @id @default(uuid())
+  email       String   @unique
   name        String?
   password    String
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  loginMethod String
+  balance     Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   refreshToken RefreshToken[]
-  transaction Transaction[]
+  transaction  Transaction[]
 }
 
-model RefreshToken{
-  id        String      @id @default(uuid())
-  token     String      @unique
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   expiresAt Int
@@ -33,7 +35,7 @@ model RefreshToken{
 }
 
 model Transaction {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   title     String
   amount    Float
   type      String

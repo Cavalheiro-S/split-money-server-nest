@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, Min, Equals } from "class-validator";
 
 export class CreateUserDTO{
     @IsNotEmpty()
@@ -8,4 +8,10 @@ export class CreateUserDTO{
     password: string;
     
     name: string;
+
+    @IsNotEmpty()
+    loginMethod: string
+
+    @Min(0)
+    balance: number
 }

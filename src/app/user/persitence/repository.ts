@@ -17,6 +17,8 @@ export class UserRepository {
                 email: dto.email,
                 password: dto.password,
                 name: dto.name,
+                loginMethod: dto.loginMethod,
+                balance: dto.balance
             }
         });
     }
