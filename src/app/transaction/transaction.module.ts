@@ -8,9 +8,10 @@ import { PrismaModule } from "src/infra/database/prisma/prisma.module";
 import { UpdateTransactionService } from "./domain/services/update-transaction.service";
 import { DeleteTransactionService } from "./domain/services/delete-transaction.service";
 import { TransactionRepositoryProvide } from "./persistence/transaction.repository.provide";
+import { AuthModule } from "../auth/auth.module";
 
 @Module({
-    imports: [PrismaModule],
+    imports: [PrismaModule, AuthModule],
     controllers: [TransactionController],
     providers: [
         CreateTransactionService,

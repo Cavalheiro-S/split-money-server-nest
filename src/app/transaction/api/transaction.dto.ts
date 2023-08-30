@@ -1,7 +1,7 @@
 
 export class TransactionDTO {
     id: string;
-    value: number;
+    amount: number;
     description: string;
     date: Date;
     type: string;

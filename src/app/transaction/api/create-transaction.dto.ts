@@ -10,7 +10,7 @@ export class CreateTransactionDTO {
     category: string;
 
     @IsNotEmpty()
-    title: string;
+    description: string;
 
     @Transform(({ value }) => value.toUpperCase())
     @IsIn(["OUTCOME", "INCOME"])

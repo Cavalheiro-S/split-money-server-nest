@@ -3,6 +3,6 @@ export class Transaction{
     id: string;
     amount: number;
     category: string;
-    title: string;
+    description: string;
     type: string;
 }

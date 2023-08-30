@@ -6,8 +6,8 @@ export class TransactionMapper {
     toDTO(transaction: Object) {
         return {
             id: transaction["id"],
-            value: transaction["amount"],
-            description: transaction["title"],
+            amount: transaction["amount"],
+            description: transaction["description"],
             date: transaction["createdAt"],
             type: transaction["type"],
             category: transaction["category"],
