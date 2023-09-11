@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import * as dayjs from "dayjs";
 import { AUTH } from "src/app/shared/auth.const";
 import { PrismaService } from "src/infra/database/prisma/prisma.service";
 
@@ -14,7 +15,7 @@ export class AuthRepository {
             data: {
                 userId: userId,
                 token: token,
-                expiresAt: AUTH.ACCESS_TOKEN_EXPIRES_TIME_IN_UNIX
+                expiresAt: dayjs(new Date()).add(15, "minutes").unix()
             }
         })
         return refreshToken

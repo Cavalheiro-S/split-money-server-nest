@@ -1,9 +1,10 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import * as dayjs from "dayjs";
 import { CreateUserDTO } from "src/app/user/api/create-user.dto";
 import { UserService } from "../../user/domain/user.service";
 import { SignInDTO } from "../api/sign-in.dto";
-import { JwtService } from "@nestjs/jwt";
-import { AUTH } from "src/app/shared/auth.const";
+import { WrongCredentialsException } from "src/app/auth/error/wrong-credentials.error";
 
 @Injectable()
 export class AuthService {
@@ -16,12 +17,12 @@ export class AuthService {
     async signIn(dto: SignInDTO) {
         const user = await this.userService.findOne(dto.email);
 
-        if (user?.password !== dto.password)
-            throw new UnauthorizedException();
+        if (!user || user?.password !== dto.password)
+            throw new WrongCredentialsException();
         const access_token = await this.jwtService.signAsync({ email: dto.email, id: user.id })
         return {
             access_token: access_token,
-            expiresIn: AUTH.ACCESS_TOKEN_EXPIRES_TIME_IN_UNIX
+            expiresIn: dayjs(new Date()).add(15, "minutes").unix()
         }
     }
 
@@ -34,7 +35,7 @@ export class AuthService {
         const access_token = await this.jwtService.signAsync({ email: dto.email, id: createdUser.id })
         return {
             access_token,
-            expiresIn: AUTH.ACCESS_TOKEN_EXPIRES_TIME_IN_UNIX
+            expiresIn: dayjs(new Date()).add(15, "minutes").unix()
         }
     }
 

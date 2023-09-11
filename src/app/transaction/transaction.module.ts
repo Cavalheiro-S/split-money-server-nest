@@ -21,6 +21,5 @@ import { AuthModule } from "../auth/auth.module";
         TransactionRepositoryProvide,
         TransactionMapper,
     ],
-    exports: [TransactionModule]
 })
 export class TransactionModule { }
