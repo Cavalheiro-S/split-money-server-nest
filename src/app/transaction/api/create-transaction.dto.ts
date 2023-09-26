@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsIn, IsNotEmpty, Min } from "class-validator";
+import { IsDate, IsIn, IsNotEmpty, Min } from "class-validator";
 
 export class CreateTransactionDTO {
 
@@ -11,6 +11,9 @@ export class CreateTransactionDTO {
 
     @IsNotEmpty()
     description: string;
+
+    @IsNotEmpty()
+    date: string;
 
     @Transform(({ value }) => value.toUpperCase())
     @IsIn(["OUTCOME", "INCOME"])

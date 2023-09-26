@@ -22,20 +22,20 @@ export class AuthService {
         const access_token = await this.jwtService.signAsync({ email: dto.email, id: user.id })
         return {
             access_token: access_token,
-            expiresIn: dayjs(new Date()).add(15, "minutes").unix()
+            expiresIn: dayjs(new Date()).add(1, "hour").unix()
         }
     }
 
     async signUp(dto: CreateUserDTO) {
         const user = await this.userService.findOne(dto.email);
         if (user) {
-            return { message: "User already exists" };
+            throw new BadRequestException("User already exists")
         }
         const createdUser = await this.userService.create(dto);
         const access_token = await this.jwtService.signAsync({ email: dto.email, id: createdUser.id })
         return {
             access_token,
-            expiresIn: dayjs(new Date()).add(15, "minutes").unix()
+            expiresIn: dayjs(new Date()).add(1, "hour").unix()
         }
     }
 

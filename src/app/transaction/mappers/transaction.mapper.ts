@@ -8,7 +8,7 @@ export class TransactionMapper {
             id: transaction["id"],
             amount: transaction["amount"],
             description: transaction["description"],
-            date: transaction["createdAt"],
+            date: transaction["date"],
             type: transaction["type"],
             category: transaction["category"],
             userId: transaction["userId"]

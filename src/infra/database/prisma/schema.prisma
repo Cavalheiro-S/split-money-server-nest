@@ -37,6 +37,7 @@ model RefreshToken {
 model Transaction {
   id          String   @id @default(uuid())
   description String
+  date        DateTime
   amount      Float
   type        String
   category    String

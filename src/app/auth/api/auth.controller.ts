@@ -15,13 +15,8 @@ export class AuthController {
         return this.authService.signIn(signInDTO);
     }
 
-    @Post('register')
+    @Post('signup')
     signUp(@Body() signUpDTO: SignUpDTO) {
         return this.authService.signUp(signUpDTO);
-    }
-
-    @Post('refresh')
-    refresh(@Body() dto: RefreshTokenDTO) {
-        // return this.authService.refresh(dto.refresh_token);
     }
 }

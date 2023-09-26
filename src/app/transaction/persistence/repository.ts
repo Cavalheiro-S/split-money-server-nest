@@ -47,11 +47,11 @@ export class TransactionRepository implements ITransactionRepository {
     }
 
     async createTransaction(dto: CreateTransactionDTO): Promise<TransactionDTO> {
-
         const transaction = await this.prismaService.transaction.create({
             data: {
                 amount: dto.amount,
                 category: dto.category,
+                date: new Date(dto.date),
                 description: dto.description,
                 type: dto.type,
                 userId: dto.userId
@@ -73,12 +73,11 @@ export class TransactionRepository implements ITransactionRepository {
             data: {
                 amount: dto.amount,
                 category: dto.category,
+                date: dto.date,
                 description: dto.description,
                 type: dto.type,
             }
         })
-
-
         return this.transactionMapper.toDTO(transaction)
     }
 
