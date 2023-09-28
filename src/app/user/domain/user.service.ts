@@ -8,6 +8,10 @@ export class UserService {
 
     constructor(@UserRepo private readonly userRepository: UserRepository) { }
 
+    async findUserById(userId: string){
+        return this.userRepository.findUserById(userId);
+    }
+
     async findOne(email: string) {
         return this.userRepository.findOne(email);
     }
