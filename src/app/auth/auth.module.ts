@@ -14,7 +14,7 @@ import { ManipulateTokenService } from "./domain/manipulate.token.service";
         JwtModule.register({
             global: true,
             secret: AUTH.SECRET_KEY,
-            signOptions: { expiresIn: '15m' },
+            signOptions: { expiresIn: '1h' },
         })
     ],
     controllers: [AuthController],
