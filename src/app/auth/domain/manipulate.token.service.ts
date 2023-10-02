@@ -9,7 +9,7 @@ export class ManipulateTokenService {
     ) { }
 
     async getIdFromToken(bearerToken: string) {
-        const [_, token] = bearerToken.split(" ")
+        const [, token] = bearerToken.split(" ")
         const data = this.jwtService.decode(token)
         if(!data["id"])
             throw new UnauthorizedException("Token is not valid")
