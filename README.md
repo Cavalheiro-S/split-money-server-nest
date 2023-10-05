@@ -69,9 +69,18 @@ cd split-money-server-nest
 ```bash
 npm i
 ```
+### Iniciando o container
+```bash
+npm run docker
+```
+
+### Rodando as migrations
+```bash
+npm run migrate:dev
+```
 
 ### Iniciando o projeto
 ```bash
-npm run dev
+npm run start:dev
 ```
 ##### <p align="center"> <strong> < Feito por <a href="https://github.com/Cavalheiro-S"> @Cavalheiro-S  </a> /> </strong>  :wave:
