@@ -9,17 +9,17 @@ export class ListTransactionService {
     constructor(
         @TransactionRepo private readonly transactionRepository: ITransactionRepository,
         private readonly userService: UserService
-        ) { }
+    ) { }
 
-    async listTransaction(userId: string) {
+    async listTransaction(userId: string, page: number, count: number) {
         const user = await this.userService.findUserById(userId)
-        if(!user) throw new NotFoundException("User not found")
-        return this.transactionRepository.listTransactions(userId);
+        if (!user) throw new NotFoundException("User not found")
+        return this.transactionRepository.listTransactions(userId, page, count);
     }
 
     async listTransactionByType(dto: GetTransactionByUserDTO) {
         const user = await this.userService.findUserById(dto.userId)
-        if(!user) throw new NotFoundException("User not found")
+        if (!user) throw new NotFoundException("User not found")
         return this.transactionRepository.listTransactionByType(dto);
     }
 }

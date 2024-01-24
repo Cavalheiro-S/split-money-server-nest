@@ -31,9 +31,12 @@ export class TransactionController {
         return this.listTransactionService.listTransactionByType(dto);
     }
 
-    @Get(":userId")
-    getTransactions(@Param("userId") userId: string) {
-        return this.listTransactionService.listTransaction(userId);
+    @Get()
+    getTransactions(
+        @Query("userId") userId: string,
+        @Query("page") page: number,
+        @Query("count") count: number) {
+        return this.listTransactionService.listTransaction(userId, page, count);
     }
 
     @Post()

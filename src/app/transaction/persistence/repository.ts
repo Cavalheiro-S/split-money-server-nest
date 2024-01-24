@@ -14,11 +14,13 @@ export class TransactionRepository implements ITransactionRepository {
         private readonly prismaService: PrismaService,
         private readonly transactionMapper: TransactionMapper) { }
 
-    async listTransactions(userId: string): Promise<TransactionDTO[]> {
+    async listTransactions(userId: string, page: number, count: number): Promise<TransactionDTO[]> {
         const transactions = await this.prismaService.transaction.findMany({
             where: {
                 userId: userId,
-            }
+            },
+            take: Number(count),
+            skip: page > 0 ? (page - 1) * count : 0
         })
         return transactions.map(transaction => this.transactionMapper.toDTO(transaction))
     }
