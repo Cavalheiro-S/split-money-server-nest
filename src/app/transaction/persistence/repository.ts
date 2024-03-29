@@ -6,6 +6,7 @@ import { TransactionDTO } from "../api/transaction.dto";
 import { UpdateTransactionDTO } from "../api/update-transaction.dto";
 import { TransactionMapper } from "../mappers/transaction.mapper";
 import { ITransactionRepository } from "./repository.interface";
+import { FilterTransactionDTO } from "../api/filter-transaction.dto";
 
 @Injectable()
 export class TransactionRepository implements ITransactionRepository {
@@ -14,23 +15,15 @@ export class TransactionRepository implements ITransactionRepository {
         private readonly prismaService: PrismaService,
         private readonly transactionMapper: TransactionMapper) { }
 
-    async listTransactions(userId: string, page: number, count: number): Promise<TransactionDTO[]> {
+    async listTransactions(filter: FilterTransactionDTO, userId: string): Promise<TransactionDTO[]> {
+        const where = {
+            userId: userId,
+            ...(filter.type && { type: filter.type })
+        }
         const transactions = await this.prismaService.transaction.findMany({
-            where: {
-                userId: userId,
-            },
-            take: Number(count),
-            skip: page > 0 ? (page - 1) * count : 0
-        })
-        return transactions.map(transaction => this.transactionMapper.toDTO(transaction))
-    }
-
-    async listTransactionByType(dto: GetTransactionByUserDTO): Promise<TransactionDTO[]> {
-        const transactions = await this.prismaService.transaction.findMany({
-            where: {
-                userId: dto.userId,
-                type: dto.type
-            }
+            where,
+            take: filter.count ? Number(filter.count) : 10,
+            skip: filter.page > 0 ? (filter.page - 1) * filter.count : 0
         })
         return transactions.map(transaction => this.transactionMapper.toDTO(transaction))
     }

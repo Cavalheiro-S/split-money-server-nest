@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { UserService } from "src/app/user/domain/user.service";
-import { GetTransactionByUserDTO } from "../../api/get-transaction-by-user.dto";
+import { FilterTransactionDTO } from "../../api/filter-transaction.dto";
 import { ITransactionRepository } from "../../persistence/repository.interface";
 import { TransactionRepo } from "../../persistence/transaction.repository.provide";
 
@@ -11,15 +11,10 @@ export class ListTransactionService {
         private readonly userService: UserService
     ) { }
 
-    async listTransaction(userId: string, page: number, count: number) {
+    async listTransaction(filter: FilterTransactionDTO, userId: string) {
         const user = await this.userService.findUserById(userId)
         if (!user) throw new NotFoundException("User not found")
-        return this.transactionRepository.listTransactions(userId, page, count);
+        return this.transactionRepository.listTransactions(filter, userId);
     }
 
-    async listTransactionByType(dto: GetTransactionByUserDTO) {
-        const user = await this.userService.findUserById(dto.userId)
-        if (!user) throw new NotFoundException("User not found")
-        return this.transactionRepository.listTransactionByType(dto);
-    }
 }
