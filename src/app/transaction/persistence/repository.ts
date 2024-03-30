@@ -41,7 +41,7 @@ export class TransactionRepository implements ITransactionRepository {
         return this.transactionMapper.toDTO(transaction)
     }
 
-    async createTransaction(dto: CreateTransactionDTO): Promise<TransactionDTO> {
+    async createTransaction(dto: CreateTransactionDTO, userId: string): Promise<TransactionDTO> {
         const transaction = await this.prismaService.transaction.create({
             data: {
                 amount: dto.amount,
@@ -49,7 +49,7 @@ export class TransactionRepository implements ITransactionRepository {
                 date: new Date(dto.date),
                 description: dto.description,
                 type: dto.type,
-                userId: dto.userId
+                userId
             }
         })
 
@@ -59,16 +59,16 @@ export class TransactionRepository implements ITransactionRepository {
         return this.transactionMapper.toDTO(transaction)
     }
 
-    async updateTransaction(id: string, dto: UpdateTransactionDTO): Promise<TransactionDTO> {
+    async updateTransaction(id: string, dto: UpdateTransactionDTO, userId: string): Promise<TransactionDTO> {
         const transaction = await this.prismaService.transaction.update({
             where: {
                 id: id,
-                userId: dto.userId
+                userId
             },
             data: {
                 amount: dto.amount,
                 category: dto.category,
-                date: dto.date,
+                date: new Date(dto.date),
                 description: dto.description,
                 type: dto.type,
             }

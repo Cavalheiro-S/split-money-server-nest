@@ -18,7 +18,4 @@ export class CreateTransactionDTO {
     @Transform(({ value }) => value.toUpperCase())
     @IsIn(["OUTCOME", "INCOME"])
     type: string;
-
-    @IsNotEmpty()
-    userId: string;
 }

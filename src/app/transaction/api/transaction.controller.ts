@@ -21,9 +21,10 @@ export class TransactionController {
         private readonly manipulateTokenService: ManipulateTokenService
     ) { }
 
-    @Patch(":id")
-    updateTransaction(@Param("id") id: string, @Body() dto: UpdateTransactionDTO) {
-        return this.updateTransactionService.updateTransaction(id, dto);
+    @Patch()
+    async updateTransaction(@Query("id") id: string, @Body() dto: UpdateTransactionDTO, @Headers("Authorization") token) {
+        const userId = await this.manipulateTokenService.getIdFromToken(token)
+        return this.updateTransactionService.updateTransaction(id, dto, userId);
     }
 
     @Get()
@@ -33,8 +34,9 @@ export class TransactionController {
     }
 
     @Post()
-    createTransaction(@Body() dto: CreateTransactionDTO) {
-        return this.createTransactionService.createTransaction(dto);
+    async createTransaction(@Body() dto: CreateTransactionDTO, @Headers("Authorization") token) {
+        const userId = await this.manipulateTokenService.getIdFromToken(token)
+        return this.createTransactionService.createTransaction(dto, userId);
     }
 
     @Delete()

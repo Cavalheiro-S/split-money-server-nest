@@ -12,9 +12,9 @@ export class CreateTransactionService {
         private readonly userService: UserService
     ) { }
 
-    async createTransaction(dto: CreateTransactionDTO) {
-        const user = await this.userService.findUserById(dto.userId)
+    async createTransaction(dto: CreateTransactionDTO, userId: string) {
+        const user = await this.userService.findUserById(userId)
         if (!user) throw new NotFoundException("User not found")
-        return this.transactionRepository.createTransaction(dto);
+        return this.transactionRepository.createTransaction(dto, user.id);
     }
 }
