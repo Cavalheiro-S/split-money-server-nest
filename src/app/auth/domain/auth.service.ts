@@ -19,7 +19,13 @@ export class AuthService {
 
         if (!user || user?.password !== dto.password)
             throw new WrongCredentialsException();
-        const access_token = await this.jwtService.signAsync({ email: dto.email, id: user.id })
+        const access_token = await this.jwtService.signAsync(
+            {
+                email: dto.email,
+                id: user.id
+            }, {
+            expiresIn: AUTH.JWT_VALID_SECONDS
+        })
         return {
             access_token: access_token,
             expiresIn: AUTH.JWT_VALID_SECONDS
@@ -32,10 +38,15 @@ export class AuthService {
             throw new BadRequestException("User already exists")
         }
         const createdUser = await this.userService.create(dto);
-        const access_token = await this.jwtService.signAsync({ email: dto.email, id: createdUser.id })
+        const access_token = await this.jwtService.signAsync(
+            {
+                email: dto.email,
+                id: createdUser.id
+            }, {
+            expiresIn: AUTH.JWT_VALID_SECONDS
+        })
         return {
             access_token,
-            expiresIn: AUTH.JWT_VALID_SECONDS
         }
     }
 

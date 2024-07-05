@@ -12,7 +12,16 @@ export class UserRepository {
     }
 
     async findUserById(id: string) {
-        return this.prismaService.user.findUnique({ where: { id } });
+        return this.prismaService.user.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                loginMethod: true,
+                balance: true
+            }
+        });
     }
 
     async create(dto: CreateUserDTO) {

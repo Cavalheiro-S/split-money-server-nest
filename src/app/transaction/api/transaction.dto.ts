@@ -3,7 +3,7 @@ export class TransactionDTO {
     id: string;
     amount: number;
     description: string;
-    date: Date;
+    date: string;
     type: string;
     category: string;
     userId: string;
