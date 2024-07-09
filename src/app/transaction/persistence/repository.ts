@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
+import PrismaType from "@prisma/client/index";
 import { PrismaService } from "src/infra/database/prisma/prisma.service";
 import { CreateTransactionDTO } from "../api/create-transaction.dto";
-import { GetTransactionByUserDTO } from "../api/get-transaction-by-user.dto";
+import { FilterTransactionDTO } from "../api/filter-transaction.dto";
 import { TransactionDTO } from "../api/transaction.dto";
 import { UpdateTransactionDTO } from "../api/update-transaction.dto";
 import { TransactionMapper } from "../mappers/transaction.mapper";
 import { ITransactionRepository } from "./repository.interface";
-import { FilterTransactionDTO } from "../api/filter-transaction.dto";
 
 @Injectable()
 export class TransactionRepository implements ITransactionRepository {
@@ -16,9 +16,19 @@ export class TransactionRepository implements ITransactionRepository {
         private readonly transactionMapper: TransactionMapper) { }
 
     async listTransactions(filter: FilterTransactionDTO, userId: string): Promise<TransactionDTO[]> {
-        const where = {
+        const date = new Date(filter.period);
+
+        const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+        const firstDayOfNextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+        const where: PrismaType.Prisma.TransactionWhereInput = {
             userId: userId,
-            ...(filter.type && { type: filter.type })
+            ...(filter.type && { type: filter.type }),
+            ...(filter.period && {
+                date: {
+                    gte: firstDayOfMonth,
+                    lt: firstDayOfNextMonth,
+                },
+            })
         }
         const transactions = await this.prismaService.transaction.findMany({
             where,

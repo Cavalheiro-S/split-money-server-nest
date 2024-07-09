@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsIn, IsOptional, } from "class-validator";
+import { IsDateString, IsIn, IsOptional, } from "class-validator";
 import { Pagination } from "src/app/shared/api/pagination.dto";
 
 export class FilterTransactionDTO extends Pagination {
@@ -7,4 +7,8 @@ export class FilterTransactionDTO extends Pagination {
     @IsIn(["OUTCOME", "INCOME"])
     @IsOptional()
     type: string;
+
+    @IsDateString()
+    @IsOptional()
+    period: string;
 }
