@@ -69,6 +69,7 @@ export class TransactionRepository implements ITransactionRepository {
         return this.transactionMapper.toDTO(transaction)
     }
 
+
     async updateTransaction(id: string, dto: UpdateTransactionDTO, userId: string): Promise<TransactionDTO> {
         const transaction = await this.prismaService.transaction.update({
             where: {
