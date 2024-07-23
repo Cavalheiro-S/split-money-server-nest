@@ -1,5 +1,6 @@
-import { Transform } from "class-transformer";
-import { IsDate, IsIn, IsNotEmpty, Min } from "class-validator";
+import { Transform, Type } from "class-transformer";
+import { IsIn, IsNotEmpty, Min, ValidateIf, ValidateNested } from "class-validator";
+import { TransactionReccurencyDTO } from "./transaction.dto";
 
 export class CreateTransactionDTO {
 
@@ -18,4 +19,14 @@ export class CreateTransactionDTO {
     @Transform(({ value }) => value.toUpperCase())
     @IsIn(["OUTCOME", "INCOME"])
     type: string;
+
+    recurrent: boolean;
+
+    @ValidateIf(o => o.recurrent)
+    @IsNotEmpty()
+    @ValidateNested()
+    @Type(() => TransactionReccurencyDTO)
+    recurrence: TransactionReccurencyDTO
+
 }
+
