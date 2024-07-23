@@ -9,6 +9,7 @@ export class TransactionDTO {
     date: string;
     type: string;
     category: string;
+    recurrent: boolean;
     userId: string;
 }
 
