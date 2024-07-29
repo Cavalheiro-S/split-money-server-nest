@@ -1,5 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import PrismaType from "@prisma/client/index";
+import * as dayjs from "dayjs";
+import { Pagination } from "src/app/shared/api/pagination.dto";
 import { PrismaService } from "src/infra/database/prisma/prisma.service";
 import { CreateTransactionDTO } from "../api/create-transaction.dto";
 import { FilterTransactionDTO } from "../api/filter-transaction.dto";
@@ -7,9 +9,6 @@ import { TransactionDTO } from "../api/transaction.dto";
 import { UpdateTransactionDTO } from "../api/update-transaction.dto";
 import { TransactionMapper } from "../mappers/transaction.mapper";
 import { ITransactionRepository } from "./repository.interface";
-import * as dayjs from "dayjs";
-import { Pagination } from "src/app/shared/api/pagination.dto";
-import { Transaction } from "../domain/transaction";
 
 @Injectable()
 export class TransactionRepository implements ITransactionRepository {
@@ -35,9 +34,18 @@ export class TransactionRepository implements ITransactionRepository {
         }
         const transactions = await this.prismaService.transaction.findMany({
             where,
-            take: filter.count ? Number(filter.count) : 10,
+            include: {
+                children: {
+                    take: 1,
+                    select: {
+                        id: true
+                    }
+                }
+            },
+            take: filter.count ? Number(filter.count) : 5,
             skip: filter.page > 0 ? (filter.page - 1) * filter.count : 0
         })
+        
         const transactionsMapped = transactions.map(transaction => this.transactionMapper.toDTO(transaction))
 
         return {

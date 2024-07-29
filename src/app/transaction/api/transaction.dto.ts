@@ -11,6 +11,7 @@ export class TransactionDTO {
     category: string;
     recurrent: boolean;
     userId: string;
+    hasChildren: boolean;
 }
 
 export class TransactionReccurencyDTO {
