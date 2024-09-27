@@ -1,5 +1,5 @@
 import { Inject } from "@nestjs/common";
-import { AuthRepository } from "./repository";
+import { AuthRepository } from "./auth.repository";
 
 const provider = "AuthRepo"
 

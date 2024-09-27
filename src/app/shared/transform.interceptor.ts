@@ -1,16 +1,21 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
-import { Observable, catchError, map } from "rxjs";
+import { BadGatewayException, BadRequestException, CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
+import { Observable, catchError, map, throwError } from "rxjs";
 
 export interface Response<T> {
     data: T
 }
 
 @Injectable()
-export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>>{
+export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> {
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<Response<T>> {
         return next.handle()
-        .pipe(map(data => ({ data })))
+            .pipe(catchError(err => {
+                console.log("Error:");
+                console.log(err);
+                return throwError(() => new BadRequestException(err))
+            }))
+            .pipe(map(data => ({ data })))
     }
 
 }
