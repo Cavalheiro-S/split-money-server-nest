@@ -19,4 +19,8 @@ export class UserService {
     async create(dto: CreateUserDTO) {
         return this.userRepository.create(dto);
     }
+
+    async updatePassword(userId: string, password: string) {
+        return this.userRepository.updatePassword(userId, password);
+    }
 }

@@ -13,6 +13,7 @@ export class TransactionMapper {
             category: transaction["category"],
             recurrent: !!transaction["parentId"],
             userId: transaction["userId"],
+            hasChildren: transaction["children"]?.length > 0
         } as TransactionDTO
     }
 }
